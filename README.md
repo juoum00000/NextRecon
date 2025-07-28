@@ -24,7 +24,7 @@ NextRecon is a simple Python-based reconnaissance tool designed for bug bounty h
 
 ---
 
-## 🚀 Installation & Requirements
+## Installation & Requirements
 
 ### Dependencies
 
@@ -46,3 +46,16 @@ breachcollection_api_key: your_key
 ```
 
 To get your API key go to [this link](https://breachcollection.com/dashboard/manage-api/) and create a new API KEY (only for Researcher and Enterprise Tiers).
+
+
+## Usage
+
+```bash
+python3 nextrecon.py <domain> [include_subdomains:true/false]
+```
+
+Do not include the protocol in the <domain> field. 
+Example of correct usage: 
+```bash
+python3 nextrecon.py example.com true
+```
