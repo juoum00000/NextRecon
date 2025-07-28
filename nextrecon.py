@@ -42,19 +42,17 @@ def breach_collection(host, api_key):
 
     r = requests.post("https://breachcollection.com/api/get-credentials", data=send, headers=headers)
     
-    content = r.text.replace("[", "").replace("]", "")
-    elements = content.split(",")
+    r.raise_for_status()
 
+    result_temp = r.json()
     result_email_domain = []
-    for i in range(0, len(elements), 3):
-        sublist = []
-        for element in elements[i:i+3]:
-            element = element[1: -1]
-            sublist.append(element)
 
+    for row in result_temp:
+        sublist = []
+        for element in row:
+            sublist.append(element)
         result_email_domain.append(sublist)
 
-    
 
 #domain query
     send = {"type": 0,
@@ -63,19 +61,16 @@ def breach_collection(host, api_key):
     headers = {'Authorization': f'Bearer {api_key}'}
 
     r = requests.post("https://breachcollection.com/api/get-credentials", data=send, headers=headers)
-    
+    r.raise_for_status()
 
-    content = r.text.replace("[", "").replace("]", "")
-    elements = content.split(',') # to change
-
+    result_temp = r.json()
     result_domain = []
-    for i in range(0, len(elements), 3):
+    for row in result_temp:
         sublist = []
-        for element in elements[i:i+3]:
-            element = element[1: -1]
+        for element in row:
             sublist.append(element)
-
         result_domain.append(sublist)
+
 
 
     
@@ -168,8 +163,6 @@ if __name__ == '__main__':
                         print(f"Username: {leak[1]}", file=file)
                         print(f"Password: {leak[2]}", file=file)
                         print("", file=file)
-                    else:
-                        print("Parsing error! Please refer to breachcollection.com User Interface for this query!")
 
 
             if len(leaks[1]) > 3:
@@ -185,8 +178,6 @@ if __name__ == '__main__':
                         print(f"Password: {leak[2]}", file=file)
                     
                         print("", file=file)
-                    else:
-                        print("Parsing error! Please refer to breachcollection.com User Interface for this query!")
 
         print(f"[*]Leaks found written to {host}-leaks.txt")
 
