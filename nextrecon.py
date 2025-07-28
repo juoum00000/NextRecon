@@ -35,7 +35,7 @@ def waybackurls(host, with_subs):
 
 def breach_collection(host, api_key):
 #email domain query
-    send = {"type": 0,
+    send = {"type": 2,
             "query": host
             }
     headers = {'Authorization': f'Bearer {api_key}'}
@@ -57,7 +57,7 @@ def breach_collection(host, api_key):
     
 
 #domain query
-    send = {"type": 1,
+    send = {"type": 0,
             "query": host
             }
     headers = {'Authorization': f'Bearer {api_key}'}
@@ -66,7 +66,7 @@ def breach_collection(host, api_key):
     
 
     content = r.text.replace("[", "").replace("]", "")
-    elements = content.split(",")
+    elements = content.split(',') # to change
 
     result_domain = []
     for i in range(0, len(elements), 3):
@@ -76,6 +76,7 @@ def breach_collection(host, api_key):
             sublist.append(element)
 
         result_domain.append(sublist)
+
 
     
     return [result_email_domain, result_domain]
@@ -162,19 +163,30 @@ if __name__ == '__main__':
                 print("[*]===EMAIL DOMAIN RESULTS===", file=file)
 
                 for leak in leaks[0]:
-                    print(f"URL: {leak[0]}", file=file)
-                    print(f"Username: {leak[1]}", file=file)
-                    print(f"Password: {leak[2]}", file=file)
-                    print("", file=file)
+                    if len(leak) >= 3:
+                        print(f"URL: {leak[0]}", file=file)
+                        print(f"Username: {leak[1]}", file=file)
+                        print(f"Password: {leak[2]}", file=file)
+                        print("", file=file)
+                    else:
+                        print("Parsing error! Please refer to breachcollection.com User Interface for this query!")
+
 
             if len(leaks[1]) > 3:
                 print("[*]===DOMAIN RESULTS===", file=file)
 
                 for leak in leaks[1]:
-                    print(f"URL: {leak[0]}", file=file)
-                    print(f"Username: {leak[1]}", file=file)
-                    print(f"Password: {leak[2]}", file=file)
-                    print("", file=file)
+                    if len(leak) >= 3:
+
+                        print(f"URL: {leak[0]}", file=file)
+                    
+                        print(f"Username: {leak[1]}", file=file)
+                    
+                        print(f"Password: {leak[2]}", file=file)
+                    
+                        print("", file=file)
+                    else:
+                        print("Parsing error! Please refer to breachcollection.com User Interface for this query!")
 
         print(f"[*]Leaks found written to {host}-leaks.txt")
 
